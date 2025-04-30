@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking-queue-manager
+spec:
+  selector:
+    app: booking-queue-manager
+  ports:
+    - name: http
+      port: 8090        # clients connect here
+      targetPort: 8090  # container listens here
+  type: ClusterIP

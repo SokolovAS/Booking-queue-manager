@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking-queue-manager
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: booking-queue-manager
+  template:
+    metadata:
+      labels:
+        app: booking-queue-manager
+    spec:
+      containers:
+        - name: queue-manager
+          image: dn010590sas/booking-queue-manager:latest
+          ports:
+            - name: http
+              containerPort: 8090
+          env:
+            - name: AMQP_URL
+              value: "amqp://guest:guest@rabbitmq:5672/"
+            - name: QUEUE_NAME
+              value: "booking_inserts"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
