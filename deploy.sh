@@ -21,4 +21,13 @@ helm upgrade --install \
   --set image.repository="dn010590sas/bookingprocessor" \
   --set image.tag="latest"
 
+#############################################
+# 4. Rollout Restart BookingProcessor
+#############################################
+echo "➡️ Forcing rollout restart of deployment: $RELEASE_NAME"
+kubectl rollout restart deployment/"$RELEASE_NAME" --namespace "$NAMESPACE"
+
+echo "➡️ Waiting for BookingProcessor rollout to finish…"
+kubectl rollout status deployment/"$RELEASE_NAME" --namespace "$NAMESPACE"
+
 echo "✅ Deployment complete!"
